@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/carbon cell assessment/User-Authentication/User-Authentication.iml" filepath="$PROJECT_DIR$/carbon cell assessment/User-Authentication/User-Authentication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/carbon cell assessment.iml" filepath="$PROJECT_DIR$/.idea/carbon cell assessment.iml" />
+    </modules>
+  </component>
+</project>

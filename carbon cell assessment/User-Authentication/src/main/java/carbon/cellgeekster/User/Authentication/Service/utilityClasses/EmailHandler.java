@@ -1,4 +1,4 @@
-package carbon.cellgeekster.User.Authentication.Service.emailSender;
+package carbon.cellgeekster.User.Authentication.Service.utilityClasses;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;

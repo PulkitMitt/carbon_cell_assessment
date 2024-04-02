@@ -49,7 +49,7 @@ public class UserController {
         if(authenticationService.authenticate(email, tokenValue)) {
             return userService.fetchData();
         }
-        return "UnAuthenticated User Activity!!";
+        return "UnAuthorize user Activity!!";
     }
 
 }

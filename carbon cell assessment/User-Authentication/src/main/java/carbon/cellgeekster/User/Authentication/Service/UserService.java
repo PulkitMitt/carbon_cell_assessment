@@ -5,8 +5,10 @@ import carbon.cellgeekster.User.Authentication.Model.User;
 import carbon.cellgeekster.User.Authentication.Model.dto.SignInInput;
 import carbon.cellgeekster.User.Authentication.Model.dto.SignUpOutput;
 import carbon.cellgeekster.User.Authentication.Repository.IUserRepo;
-import carbon.cellgeekster.User.Authentication.Service.emailSender.EmailHandler;
+import carbon.cellgeekster.User.Authentication.Service.utilityClasses.EmailHandler;
 import carbon.cellgeekster.User.Authentication.Service.hashing.PasswordEncryptor;
+import carbon.cellgeekster.User.Authentication.Service.utilityClasses.JwtTokenUtility;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 
+
 @Service
 public class UserService {
 
@@ -24,6 +27,9 @@ public class UserService {
 
     @Autowired
     AuthenticationService authenticationService;
+
+    @Autowired
+    JwtTokenUtility jwtTokenUtility;
     public SignUpOutput signUpUser(User user) {
 
         boolean signUpStatus = true;
@@ -86,9 +92,12 @@ public class UserService {
         try {
             String encryptPassword = PasswordEncryptor.encryptPassword(signInInput.getPassword());
             if (existingUser.getUserPassword().equals(encryptPassword)) {
-
-                AuthenticationToken authenticationToken = new AuthenticationToken(existingUser);
+                System.out.println("pointer reaches here");
+                String tokenValue = jwtTokenUtility.generateToken(existingUser);
+                System.out.println(tokenValue);
+                AuthenticationToken authenticationToken = new AuthenticationToken(existingUser, tokenValue);
                 authenticationService.saveAuthToken(authenticationToken);
+
                 EmailHandler.sendEmail("pulkitmittal194@gmail.com", "Token Value", authenticationToken.getTokenValue());
                 return "token has been sent to your email!!";
             }
@@ -98,6 +107,7 @@ public class UserService {
 
 
         } catch (Exception e) {
+            System.out.println(e);
             return "Something went wrong!!";
         }
 
@@ -111,6 +121,7 @@ public class UserService {
     }
 
     public String fetchData() {
+
         try {
             // Specify the URL of the API endpoint you want to call
             URL url = new URL("https://api.publicapis.org/entries");
@@ -132,7 +143,7 @@ public class UserService {
 
 
             // Print the response
-            System.out.println("API Response: " + response.toString());
+//            System.out.println("API Response: " + response.toString());
 
             // Close the connection
             connection.disconnect();
@@ -144,6 +155,7 @@ public class UserService {
         }
         return "Something went wrong!!";
     }
+
 }
 
 
